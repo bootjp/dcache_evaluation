@@ -1,0 +1,24 @@
+version: '3.4'
+
+services:
+  dns01:
+    build: .
+    ports:
+      - "15353:53/udp"
+      - "15353:53"
+      - "9353:9253"
+    depends_on:
+      - redis
+
+  dns02:
+    build: .
+    ports:
+      - "25353:53/udp"
+      - "25353:53"
+      - "9453:9253"
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:latest
+

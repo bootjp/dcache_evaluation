@@ -1,0 +1,9 @@
+. {
+    dcache redis:6379
+    log
+    cache
+    prometheus 0.0.0.0:9253
+    reload
+    ready
+    forward . 1.1.1.1
+}

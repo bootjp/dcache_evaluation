@@ -1,0 +1,6 @@
+[submodule "coredns"]
+	path = coredns
+	url = git@github.com:coredns/coredns.git
+[submodule "plugins/dcache"]
+	path = plugins/dcache
+	url = git@github.com:bootjp/dcache.git
