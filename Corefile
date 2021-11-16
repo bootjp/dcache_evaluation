@@ -1,7 +1,7 @@
 . {
     dcache redis:6379
     log
-    cache
+    errors
     prometheus 0.0.0.0:9253
     reload
     ready

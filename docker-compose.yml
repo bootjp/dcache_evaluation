@@ -9,6 +9,8 @@ services:
       - "9353:9253"
     depends_on:
       - redis
+    volumes:
+      - ./Corefile:/Corefile
 
   dns02:
     build: .
@@ -18,7 +20,13 @@ services:
       - "9453:9253"
     depends_on:
       - redis
+    volumes:
+      - ./Corefile:/Corefile
 
   redis:
     image: redis:latest
-
+    volumes:
+      - ./redis.conf:/etc/redis/redis.conf
+    command: redis-server /etc/redis/redis.conf
+    ports:
+      - 16379:6379

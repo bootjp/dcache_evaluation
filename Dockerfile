@@ -4,7 +4,7 @@ COPY ./coredns /coredns
 COPY ./plugins/dcache /usr/local/go/src/dcache
 COPY Corefile /coredns/Corefile
 
-RUN echo "dcache:dcache" >> /coredns/plugin.cfg
+RUN sed -i '1s/^/dcache:dcache\n/' /coredns/plugin.cfg
 
 WORKDIR /coredns
 
@@ -14,6 +14,8 @@ FROM gcr.io/distroless/static
 
 COPY --from=build /coredns/coredns /coredns
 COPY Corefile /
+
+EXPOSE 53/udp 53
 
 CMD ["/coredns"]
 
