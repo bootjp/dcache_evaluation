@@ -1,6 +1,7 @@
-. {
-    dcache redis:6379
+.:53 {
     log
+    cache
+    dcache 10.146.0.10:6379
     errors
     prometheus 0.0.0.0:9253
     reload

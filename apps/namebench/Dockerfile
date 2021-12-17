@@ -10,4 +10,4 @@ RUN curl -LO https://storage.googleapis.com/google-code-archive-downloads/v2/cod
   && rm -r namebench-${VERSION}/ \
   && chmod +x namebench.py
 
-CMD ["./namebench.py"]
+ENTRYPOINT ["./namebench.py"]
