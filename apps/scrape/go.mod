@@ -3,7 +3,7 @@ module github.com/bootjp/dcache_evaluation/apps/scrape
 go 1.17
 
 require (
-	github.com/chromedp/cdproto v0.0.0-20211126220118-81fa0469ad77
+	github.com/chromedp/cdproto v0.0.0-20211223002613-767fe3af85ce
 	github.com/chromedp/chromedp v0.7.6
 	github.com/go-redis/redis/v8 v8.11.4
 )
