@@ -4,7 +4,10 @@ COPY ./coredns /coredns
 COPY ./plugins/dcache /usr/local/go/src/dcache
 COPY Corefile /coredns/Corefile
 
-RUN sed -i '1s/^/dcache:dcache\n/' /coredns/plugin.cfg
+RUN sed -i "/^cache:cache$/a dcache:dcache" /coredns/plugin.cfg
+#RUN sed -i '1s/^/dcache:dcache\n/' /coredns/plugin.cfg
+RUN cat /coredns/plugin.cfg
+#
 
 WORKDIR /coredns
 
