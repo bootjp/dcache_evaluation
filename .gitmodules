@@ -4,3 +4,6 @@
 [submodule "plugins/dcache"]
 	path = plugins/dcache
 	url = git@github.com:bootjp/dcache.git
+[submodule "plugins/redis"]
+	path = plugins/redis
+	url = git@github.com:miekg/redis.git
