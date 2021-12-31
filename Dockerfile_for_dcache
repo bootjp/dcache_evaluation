@@ -1,8 +1,11 @@
 FROM golang AS build
 
 COPY ./coredns /coredns
+COPY ./plugins/dcache /usr/local/go/src/dcache
 COPY Corefile_for_dcache /coredns/Corefile
 
+
+RUN sed -i "/^cache:cache$/a dcache:dcache" /coredns/plugin.cfg
 WORKDIR /coredns
 
 RUN make

@@ -1,7 +1,7 @@
 FROM golang AS build
 
 COPY ./coredns /coredns
-COPY ./plugins/dcache /usr/local/go/src/dcache
+COPY ./plugins/redis /usr/local/go/src/redis
 COPY Corefile_for_redis /coredns/Corefile
 
 RUN sed -i "/^cache:cache$/a redisc:github.com/miekg/redis" /coredns/plugin.cfg
