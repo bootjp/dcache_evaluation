@@ -2,23 +2,18 @@ FROM golang AS build
 
 COPY ./coredns /coredns
 COPY ./plugins/dcache /usr/local/go/src/dcache
-COPY Corefile /coredns/Corefile
+COPY Corefile_for_corens /coredns/Corefile
 
-RUN sed -i "/^cache:cache$/a dcache:dcache" /coredns/plugin.cfg
-#RUN sed -i '1s/^/dcache:dcache\n/' /coredns/plugin.cfg
+RUN sed -i "/^cache:cache$/a redisc:github.com/miekg/redis" /coredns/plugin.cfg
 RUN cat /coredns/plugin.cfg
-#
 
 WORKDIR /coredns
 
 RUN make
 
 FROM gcr.io/distroless/static
-
 COPY --from=build /coredns/coredns /coredns
-COPY Corefile /
-
-EXPOSE 53/udp 53
+COPY Corefile_for_corens /Corefile
+EXPOSE 53/udp 53 9253
 
 CMD ["/coredns"]
-

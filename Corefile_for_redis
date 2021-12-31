@@ -1,0 +1,11 @@
+.:53 {
+    prometheus 0.0.0.0:9253
+    cache
+    redisc 600 . {
+        endpoint 10.146.0.10:6379
+    }
+    errors
+    reload
+    ready
+    forward . 1.1.1.1
+}

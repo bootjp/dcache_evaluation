@@ -15,30 +15,35 @@ function finally {
   gcloud compute instances stop queue
   gcloud compute instances stop redis
   gcloud compute instances stop dns-cache
-  gcloud compute instance-groups managed resize coredns-cache-stub --size 0
-  gcloud compute instance-groups managed resize coredns-group --size 0
-  gcloud compute instance-groups managed resize coredns-redis --size 0
-  gcloud compute instance-groups managed resize dcache-group --size 0
+  gcloud compute instance-groups managed resize --zone asia-northeast1-b forward --size 0
+  gcloud compute instance-groups managed resize --zone asia-northeast1-b coredns --size 0
+  gcloud compute instance-groups managed resize --zone asia-northeast1-b redis --size 0
+  gcloud compute instance-groups managed resize --zone asia-northeast1-b dcache-2 --size 0
 }
 
 group=""
 case "$1" in
   "forward")
-    group="coredns-cache-stub"
+    group="--zone asia-northeast1-b forward"
     gcloud compute instances start dns-cache
+    gcloud compute instances start queue
   ;;
   "coredns")
-    group="coredns-group";;
+    group="--zone asia-northeast1-b coredns"
+    gcloud compute instances start queue
+  ;;
+
   "redis")
-    group="coredns-redis"
+    group="--zone asia-northeast1-b redis"
     gcloud compute instances start queue
     gcloud compute instances start redis
   ;;
   "dcache")
-    group="dcache-group"
+    group="--zone asia-northeast1-b dcache-2"
+
     gcloud compute instances start queue
     gcloud compute instances start redis
-    ;;
+  ;;
   *)
     exit 1;;
 esac
@@ -52,16 +57,6 @@ sleep 60
 
 cat ~/dcache_evaluation
 
-
-date
-./ev.sh $1 $2
-date
-
-#for i in `seq 1 200`; do
-#   ./ev.sh "$1" "$2"
-#done
-
-gcloud compute instance-groups managed resize $group --size 0
-gcloud compute instances stop queue
-gcloud compute instances stop redis
-gcloud compute instances stop dns-cache
+for i in `seq 1 10`; do
+   ./evaluation.sh "$1" "$2"
+done

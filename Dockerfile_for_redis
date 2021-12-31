@@ -1,0 +1,20 @@
+FROM golang AS build
+
+COPY ./coredns /coredns
+COPY ./plugins/dcache /usr/local/go/src/dcache
+COPY Corefile_for_redis /coredns/Corefile
+
+RUN sed -i "/^cache:cache$/a redisc:github.com/miekg/redis" /coredns/plugin.cfg
+RUN cat /coredns/plugin.cfg
+
+WORKDIR /coredns
+
+RUN make
+
+FROM gcr.io/distroless/static
+COPY --from=build /coredns/coredns /coredns
+COPY Corefile_for_redis /Corefile
+
+EXPOSE 53/udp 53 9253
+
+CMD ["/coredns"]

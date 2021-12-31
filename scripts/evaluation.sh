@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -ex
 
 if [ $# != 2 ]; then
   echo "add mode"
@@ -19,10 +19,12 @@ args='-O UserKnownHostsFile=/dev/null -O StrictHostKeyChecking=no'
 pssh $args -h ~/dcache_evaluation -i --timeout=15 'sudo docker restart  $(sudo docker ps -aqf "publish=53")'
 
 if [ "$1" = "forward" ]; then
-  ssh dns-cache.bootjp.me 'sudo docker restart $(sudo docker ps -aqf "publish=53")'
+#  ssh dns-cache.bootjp.me 'sudo docker restart $(sudo docker ps -aqf "publish=53")'
+  ssh dns-cache.bootjp.me 'sudo systemctl restart dnsmasq'
 fi
 
 echo "set test data"
+
 cat apps/set/command.txt | redis-cli --pipe -h queue.bootjp.me
 
 sleep 10

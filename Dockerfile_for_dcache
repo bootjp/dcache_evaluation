@@ -1,0 +1,16 @@
+FROM golang AS build
+
+COPY ./coredns /coredns
+COPY Corefile_for_dcache /coredns/Corefile
+
+WORKDIR /coredns
+
+RUN make
+
+FROM gcr.io/distroless/static
+COPY --from=build /coredns/coredns /coredns
+COPY Corefile_for_dcache /Corefile
+
+EXPOSE 53/udp 53 9253
+
+CMD ["/coredns"]
